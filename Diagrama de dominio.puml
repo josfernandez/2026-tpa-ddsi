@@ -74,6 +74,9 @@ class ItemDonacion {
 * cantidad
 * fechaVencimiento
 * estado
+
+- registrarRecepcion()
+- estaSatisfecha()
   }
 
 class DonacionSegmentada {
@@ -83,6 +86,7 @@ class DonacionSegmentada {
 * fechaVencimiento
 * estadoProducto
 * estado : EstadoDonacionSegmentada
+* asignaciones : List<Asignacion>
 
 - obtenerCantidadAsignada()
 - obtenerCantidadDisponible()
@@ -124,6 +128,8 @@ EntidadBeneficiaria "1" -- "many" Necesidad
 class Asignacion {
 
 * cantidadAsignada
+* Necesidad
+* DonacionSegmentada
   }
 
 DonacionSegmentada "1" -- "many" Asignacion
