@@ -1,0 +1,147 @@
+@startuml
+
+' =========================
+' ENUMS
+' =========================
+enum MedioNotificacion {
+EMAIL
+SMS
+WHATSAPP
+}
+
+enum EstadoNotificacion {
+PENDIENTE
+ENVIADA
+}
+
+enum TipoNecesidad {
+RECURRENTE
+EXTRAORDINARIA
+}
+
+enum EstadoDonacionSegmentada {
+DEPOSITO
+PARCIAL
+TOTAL
+}
+
+' =========================
+' DONANTES
+' =========================
+abstract class Donante {
+
+* email
+* telefono
+* medioPreferido : MedioNotificacion
+  }
+
+class DonanteHumano {
+
+* nombre
+* apellido
+* dni
+* edad
+* genero
+* direccion
+  }
+
+class DonanteJuridico {
+
+* razonSocial
+* tipo
+* rubro
+  }
+
+Donante <|-- DonanteHumano
+Donante <|-- DonanteJuridico
+
+' =========================
+' DONACION
+' =========================
+class Donacion {
+
+* descripcion
+* fecha
+* items : List<ItemDonacion>
+* segmentadas : List<DonacionSegmentada>
+
+- segmentar()
+  }
+
+class ItemDonacion {
+
+* subcategoria
+* cantidad
+* fechaVencimiento
+* estado
+  }
+
+class DonacionSegmentada {
+
+* subcategoria
+* cantidadTotal
+* fechaVencimiento
+* estadoProducto
+* estado : EstadoDonacionSegmentada
+
+- obtenerCantidadAsignada()
+- obtenerCantidadDisponible()
+- actualizarEstado()
+  }
+
+Donacion "1" *-- "many" ItemDonacion
+Donacion "1" *-- "many" DonacionSegmentada
+
+DonacionSegmentada "1" --> "1" Donacion
+
+' =========================
+' ENTIDADES Y NECESIDADES
+' =========================
+class EntidadBeneficiaria {
+
+* razonSocial
+* direccion
+* telefono
+  }
+
+class Necesidad {
+
+* subcategoria
+* cantidadObjetivo
+* cantidadActual
+* tipo : TipoNecesidad
+* descripcion
+
+- registrarRecepcion(cantidad)
+- estaSatisfecha()
+  }
+
+EntidadBeneficiaria "1" -- "many" Necesidad
+
+' =========================
+' ASIGNACION
+' =========================
+class Asignacion {
+
+* cantidadAsignada
+  }
+
+DonacionSegmentada "1" -- "many" Asignacion
+Necesidad "1" -- "many" Asignacion
+
+' =========================
+' NOTIFICACIONES
+' =========================
+class Notificacion {
+
+* mensaje
+* medio : MedioNotificacion
+* estado : EstadoNotificacion
+
+- enviar()
+  }
+
+Donante "1" -- "many" Notificacion
+EntidadBeneficiaria "1" -- "many" Notificacion
+
+@enduml
