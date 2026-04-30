@@ -1,6 +1,10 @@
 package ar.edu.utn.frba.ddsi.donaciones.models.entities;
 
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -8,6 +12,7 @@ import lombok.*;
 
 public class EntidadBeneficiaria {
     private String razonSocial;
-    private String direccion;
+    private Direccion direccion;
     private String telefono;
+    private TipoEntidad entidades;
 }

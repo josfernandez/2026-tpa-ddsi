@@ -8,6 +8,16 @@ EMAIL
 SMS
 WHATSAPP
 }
+enum Provincia {
+BUENOSAIRES
+MENDOZA
+TUCUMAN
+}
+
+enum TipoDonante{
+HUMANO
+JURIDICO
+}
 
 enum EstadoNotificacion {
 PENDIENTE
@@ -26,40 +36,23 @@ TOTAL
 }
 
 ' =========================
-' DONANTES
+' DONANTE
 ' =========================
-abstract class Donante {
-
-* email
-* telefono
-* medioPreferido : MedioNotificacion
-  }
-
-class DonanteHumano {
-
+class Donante {
 * nombre
-* apellido
-* dni
-* edad
-* genero
-* direccion
-  }
-
-class DonanteJuridico {
-
-* razonSocial
 * tipo
-* rubro
-  }
+* identificador
+* representante
+* direccion
 
-Donante <|-- DonanteHumano
-Donante <|-- DonanteJuridico
-
+}
+Donante "1" *-- "many" Donacion
 ' =========================
 ' DONACION
 ' =========================
 class Donacion {
 
+* donante
 * descripcion
 * fecha
 * items : List<ItemDonacion>
@@ -88,15 +81,11 @@ class DonacionSegmentada {
 * estado : EstadoDonacionSegmentada
 * asignaciones : List<Asignacion>
 
-- obtenerCantidadAsignada()
-- obtenerCantidadDisponible()
-- actualizarEstado()
+- marcarComoAsignada()
   }
 
 Donacion "1" *-- "many" ItemDonacion
 Donacion "1" *-- "many" DonacionSegmentada
-
-DonacionSegmentada "1" --> "1" Donacion
 
 ' =========================
 ' ENTIDADES Y NECESIDADES
@@ -121,13 +110,24 @@ class Necesidad {
   }
 
 EntidadBeneficiaria "1" -- "many" Necesidad
+' =========================
+' SERVICIO
+' =========================
 
+class ServicioAsignacion {
+    + asignar(
+        donaciones: List<DonacionSegmentada>,
+        necesidades: List<Necesidad>
+    ): List<Asignacion>
+}
+ServicioAsignacion ..> DonacionSegmentada
+ServicioAsignacion ..> Necesidad
+ServicioAsignacion ..> Asignacion
 ' =========================
 ' ASIGNACION
 ' =========================
 class Asignacion {
 
-* cantidadAsignada
 * Necesidad
 * DonacionSegmentada
   }

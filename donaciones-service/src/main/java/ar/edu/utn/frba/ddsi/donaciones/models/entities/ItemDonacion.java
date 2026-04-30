@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class ItemDonacion {
 
-    private String subcategoria;
+    private Subcategoria subcategoria;
     private Double cantidad;
     private String fechaVencimiento;
     private EstadoProducto estado; // nuevo/usado tiene que ser de tipo EstadoProducto ENUM ES UN TIPO

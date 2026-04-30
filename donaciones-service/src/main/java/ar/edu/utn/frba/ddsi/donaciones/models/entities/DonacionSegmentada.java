@@ -11,38 +11,27 @@ import java.util.List;
 @Builder
 public class DonacionSegmentada {
 
-    private String subcategoria;
+    private Subcategoria subcategoria;
     private double cantidadTotal;
     private String fechaVencimiento;
     private EstadoProducto estadoProducto;
-    private EstadoDonacionSegmentada estado;
 
     @Builder.Default
-    private List<Asignacion> asignaciones = new ArrayList<>();
-    // no me cierra pero no se si hay otra forma
-    // estoy creando una lista de asignacion para llevar el conteo de cuanto ya se asigno.
-    // nose si la clase donacionsegmentada tiene que llevar esta cuenta
+    private EstadoDonacionSegmentada estado = EstadoDonacionSegmentada.DEPOSITO;
 
-    public double obtenerCantidadAsignada() {
-        return asignaciones.stream()
-                .mapToDouble(Asignacion::getCantidadAsignada)
-                .sum();
-    }
+    private Asignacion asignacion;
 
-    // 🔹 cuánto queda disponible
-    public double obtenerCantidadDisponible() {
-        return cantidadTotal - obtenerCantidadAsignada();
-    }
-
-    // 🔹 actualizar estado simple (opcional pero suma puntos)
-    public void actualizarEstado() {
-        if (obtenerCantidadAsignada() == 0) {
-            this.estado = EstadoDonacionSegmentada.DEPOSITO;
-        } else if (obtenerCantidadAsignada() < cantidadTotal) {
-            this.estado = EstadoDonacionSegmentada.PARCIAL;
-        } else {
-            this.estado = EstadoDonacionSegmentada.TOTAL;
+    public void marcarComoAsignada(Asignacion asignacion) {
+        if (this.asignacion != null) {
+            throw new IllegalStateException("La donación ya fue asignada");
         }
+
+        this.asignacion = asignacion;
+        this.estado = EstadoDonacionSegmentada.TOTAL;
+    }
+
+    public boolean estaAsignada() {
+        return this.asignacion != null;
     }
 }
 

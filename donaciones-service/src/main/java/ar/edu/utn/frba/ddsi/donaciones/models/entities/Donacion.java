@@ -16,6 +16,7 @@ public class Donacion {
 
     private String descripcion;
     private String fecha;
+    private Donante donante;
     @Builder.Default
     private List<ItemDonacion> items = new ArrayList<>();
     @Builder.Default

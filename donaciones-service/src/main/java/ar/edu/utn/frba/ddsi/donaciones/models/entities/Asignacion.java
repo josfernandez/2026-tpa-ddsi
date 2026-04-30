@@ -10,5 +10,4 @@ public class Asignacion {
 
     private DonacionSegmentada donacionSegmentada;
     private Necesidad necesidad;
-    private double cantidadAsignada;
 }
