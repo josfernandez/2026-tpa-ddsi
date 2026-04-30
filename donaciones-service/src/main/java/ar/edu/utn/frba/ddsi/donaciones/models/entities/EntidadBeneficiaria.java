@@ -2,9 +2,6 @@ package ar.edu.utn.frba.ddsi.donaciones.models.entities;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

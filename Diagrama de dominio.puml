@@ -18,6 +18,10 @@ enum TipoDonante{
 HUMANO
 JURIDICO
 }
+enum TipoDoc{
+DNI
+CUIT
+}
 
 enum EstadoNotificacion {
 PENDIENTE
@@ -31,10 +35,21 @@ EXTRAORDINARIA
 
 enum EstadoDonacionSegmentada {
 DEPOSITO
-PARCIAL
 TOTAL
 }
-
+' =========================
+' Categoria y Subcategoria
+' =========================
+class Categoria {
+ * nombre
+ * subcategorias
+}
+class Subcategoria {
+ * nombre
+ * categoria
+}
+Categoria "1" *-- "many" Subcategoria
+ItemDonacion "1" *-- "many" Subcategoria
 ' =========================
 ' DONANTE
 ' =========================
@@ -42,11 +57,26 @@ class Donante {
 * nombre
 * tipo
 * identificador
+* tipoDoc
 * representante
 * direccion
+* email
+* telefono
 
 }
 Donante "1" *-- "many" Donacion
+' =========================
+' DIRECCION
+' =========================
+class Direccion {
+* calle
+* numero
+* provincia
+* localidad
+* latitud
+* longitud
+}
+EntidadBeneficiaria "1" *-- "1" Direccion
 ' =========================
 ' DONACION
 ' =========================
