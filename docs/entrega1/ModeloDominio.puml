@@ -1,0 +1,92 @@
+@startuml
+
+enum MedioNotificacion {
+EMAIL
+TELEFONO
+WHATSAPP
+}
+
+enum EstadoNotificacion {
+PENDIENTE
+ENVIADA
+}
+
+enum TipoNecesidad {
+RECURRENTE
+EXTRAORDINARIA
+}
+
+enum EstadoDonacionSegmentada {
+EN_DEPOSITO
+PARCIALMENTE_ASIGNADA
+TOTALMENTE_ASIGNADA
+}
+
+abstract class Donante {
+email : String
+medioPreferido : MedioNotificacion
+}
+
+class PersonaHumana {
+nombre : String
+apellido : String
+edad : Int
+número de documento : Int
+genero : String
+dirección  : String
+}
+
+class PersonaJuridica {
+razonSocial : String
+tipo : String
+rubro : String
+}
+
+Donante <|-- PersonaHumana
+Donante <|-- PersonaJuridica
+
+class Donacion {
+descripcion : String
+fecha : Date
+items : List<ItemDonacion>
+segmentadas : List<DonacionSegmentada>
+segmentar()
+}
+
+class ItemDonacion {
+subcategoria : String
+cantidad : Int
+fechaVencimiento : Date
+estado : String
+}
+
+class DonacionSegmentada {
+subcategoria : String
+cantidadTotal: int
+fechaVencimiento : Date
+estadoProducto : String
+estado : EstadoDonacionSegmentada
+obtenerCantidadAsignada()
+obtenerCantidadDisponible()
+actualizarEstado()
+}
+
+Donacion "1" *-- "0..*" ItemDonacion
+Donacion "1" *-- "0..*" DonacionSegmentada
+
+
+class EntidadBeneficiaria {
+razonSocial : String
+direccion : String
+telefono : Int
+}
+
+class Necesidad {
+subcategoria : String
+cantidadObjetivo : Int
+cantidadActual : Int
+tipo : TipoNecesidad
+descripcion : String
+}
+
+@enduml

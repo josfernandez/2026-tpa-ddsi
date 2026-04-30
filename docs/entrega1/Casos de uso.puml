@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+
+actor Donante
+actor Administrador
+actor "Entidad Beneficiaria" as Beneficiaria
+
+rectangle DonaTrack {
+    Donante --> (Registrar donante)
+    Donante --> (Filtrar donaciones)
+    Donante --> (Navegar entidades beneficiarias)
+    Donante --> (Consultar incentivos)
+    Donante --> (Recibir notificaciones)
+    Donante --> (Seguir entregas)
+
+    Administrador --> (Registrar donante)
+    Administrador --> (Registrar donacion)
+    Administrador --> (Actualizar estado de donacion)
+    Administrador --> (Seleccionar destino de donacion)
+    Administrador --> (Administrar camiones disponibles)
+    Administrador --> (Ver ranking donantes)
+    Administrador --> (Importar registros)
+
+    Beneficiaria --> (Registrar necesidad)
+    Beneficiaria --> (Ver estado donacion)
+    Beneficiaria --> (Confirmar recepcion)
+    Beneficiaria --> (Recibir notificaciones)
+    Beneficiaria --> (Seguir entregas)
+}
+@enduml

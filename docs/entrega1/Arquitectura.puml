@@ -1,0 +1,57 @@
+@startuml
+
+actor Donante
+actor Administrador
+actor "Entidad beneficiaria" as Beneficiario
+cloud "Navegador Web" as Web
+
+package "Frontend y Orquestación" {
+  node "Servidor Frontend" as ServidorFE {
+    component "App Frontend" as AppFE
+  }
+}
+
+package "Autenticación" {
+  node "Servidor de Autenticación" as SAutentificacion {
+    component "Servicio de Autenticación" as Autentificacion
+  }
+}
+
+package "Dominio" {
+  node "Servidor Donaciones" as SDonaciones{
+    component "Gestión Donantes" as Donantes
+    component "Gestión Donaciones" as Donaciones
+    component "Gestión Entidades Beneficiarias" as Entidades
+    component "Importación CSV" as ImportacionCSV
+  }
+
+  node "Servidor Notificaciones" as SNotificaiones{
+    component "Servicio Notificaciones" as Notificaciones
+  }
+}
+
+package "Persistencia" {
+  node "Servidor Base de Datos" {
+    database "Motor MySQL8" as DB
+  }
+}
+
+Donante --> Web
+Administrador --> Web
+Beneficiario --> Web
+
+Web --> ServidorFE : HTTPS
+
+AppFE --> SAutentificacion : HTTP-API REST
+AppFE --> SDonaciones : HTTP-API REST
+AppFE --> SNotificaiones : HTTP-API REST
+
+Donantes --> DB : TCP/IP
+Donaciones --> DB : TCP/IP
+Entidades --> DB : TCP/IP
+ImportacionCSV --> DB : TCP/IP
+Notificaciones --> DB : TCP/IP
+
+Autentificacion --> DB : TCP/IP
+
+@enduml
